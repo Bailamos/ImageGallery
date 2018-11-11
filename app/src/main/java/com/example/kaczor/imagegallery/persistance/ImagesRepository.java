@@ -8,7 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.kaczor.imagegallery.core.interfaces.IImagesRepository;
-import com.example.kaczor.imagegallery.core.interfaces.IOnDataFetched;
+import com.example.kaczor.imagegallery.core.interfaces.IOnRepositoryDataReturn;
 import com.example.kaczor.imagegallery.core.interfaces.IOnRequestFinished;
 import com.example.kaczor.imagegallery.core.models.Image;
 import com.example.kaczor.imagegallery.factories.JsonObjectRequestFactory;
@@ -40,7 +40,7 @@ public class ImagesRepository implements IImagesRepository {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void getImages(int page, int pageSize, IOnDataFetched<List<Image>> onRepositoryDataReturn) {
+    public void getImages(int page, int pageSize, IOnRepositoryDataReturn<List<Image>> onRepositoryDataReturn) {
         JsonObjectRequest pixabayImageListRequest = JsonObjectRequestFactory.Create(
                 Request.Method.GET,
                 String.format("%s&page=%d&per_page=%d", API_MAIN, page, pageSize),
@@ -55,7 +55,7 @@ public class ImagesRepository implements IImagesRepository {
                                         new URI(jsonArray.getJSONObject(i).getString("previewURL")),
                                         jsonArray.getJSONObject(i).getString("user")));
                             }
-                            onRepositoryDataReturn.action(images);
+                            onRepositoryDataReturn.passData(images);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {

@@ -8,5 +8,5 @@ public interface IImagesRepository {
 
     Image getImage();
 
-    void getImages(int page, int pageSize, IOnDataFetched<List<Image>> onRepositoryDataReturn);
+    void getImages(int page, int pageSize, IOnRepositoryDataReturn<List<Image>> onRepositoryDataReturn);
 }

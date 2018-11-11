@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ImageAdapter extends BaseAdapter {
 
     private final Context context;
@@ -41,19 +44,33 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.image_grid_item, null);
+        ViewHolder holder;
+        if (view != null) {
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = inflater.inflate(R.layout.image_grid_item, null);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+        }
 
-        ImageView imageView = view.findViewById(R.id.PreviewView);
+        holder.descriptionView.setText(String.format("Author: %s", images.get(position).getAuthor()));
         Picasso
                 .get()
                 .load(images.get(position).getLink().toString())
                 .placeholder(R.mipmap.ic_spinner_foreground)
-                .into(imageView);
+                .into(holder.imageView);
 
-        TextView descriptionView = view.findViewById(R.id.DescriptionView);
-        descriptionView.setText("Author: " + images.get(position).getAuthor());
         return view;
+    }
+
+    static class ViewHolder {
+        @BindView(R.id.DescriptionView) TextView descriptionView;
+        @BindView(R.id.PreviewView) ImageView imageView;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
