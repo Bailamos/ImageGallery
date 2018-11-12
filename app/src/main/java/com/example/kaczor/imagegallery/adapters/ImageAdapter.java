@@ -55,21 +55,17 @@ public class ImageAdapter extends BaseAdapter {
             view.setTag(holder);
         }
 
-
         Picasso
                 .get()
                 .load(images.get(position).getLink().toString())
                 .placeholder(R.mipmap.ic_spinner_foreground)
                 .into(holder.imageView);
 
-        //holder.imageNumber.setText(String.valueOf(position));
-
         return view;
     }
 
     static class ViewHolder {
         @BindView(R.id.PreviewView) ImageView imageView;
-        //@BindView(R.id.ImageNumber) TextView imageNumber;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

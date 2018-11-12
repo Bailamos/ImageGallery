@@ -1,8 +1,6 @@
 package com.example.kaczor.imagegallery.persistance;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;

@@ -67,9 +67,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onData(ImagesList data) {
                     images.addAll(data.images);
                     imageAdapter.notifyDataSetChanged();
+                    currentPage = currentPage + 1;
 
-                    onFinish();
                     checkIfThereAreMoreImages(data.totalHits);
+                    onFinish();
                 }
 
                 @Override
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 private void onFinish() {
                     progressSpinner.setVisibility(View.INVISIBLE);
                     isLoading = false;
-                    currentPage = currentPage + 1;
                 }
             });
         }

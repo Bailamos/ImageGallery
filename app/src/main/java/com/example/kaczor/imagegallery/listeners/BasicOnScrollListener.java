@@ -1,6 +1,5 @@
 package com.example.kaczor.imagegallery.listeners;
 
-import android.util.Log;
 import android.widget.AbsListView;
 
 import com.example.kaczor.imagegallery.core.interfaces.IOnScroll;
