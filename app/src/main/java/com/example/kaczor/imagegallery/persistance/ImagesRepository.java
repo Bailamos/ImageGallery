@@ -44,14 +44,14 @@ public class ImagesRepository implements IImagesRepository {
                     @Override
                     public void ActionOK(JSONObject json) {
                         try {
-                            onRepositoryDataReturn.passData(MappingProfile.mapJSONToImagesList(json));
+                            onRepositoryDataReturn.onData(MappingProfile.mapJSONToImagesList(json));
                         } catch(JSONException ex) {
-                            //todo:handle
+                            onRepositoryDataReturn.onError("Not able to load data");
                         }
                     }
                     @Override
                     public void ActionERROR(VolleyError jsonObject) {
-
+                        onRepositoryDataReturn.onError("Not able to fetch data");
                     }
                 });
         RequestHandler.GetInstance(this.context).AddToRequestQueue(pixabayImageListRequest);

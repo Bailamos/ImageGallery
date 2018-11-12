@@ -10,7 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kaczor.imagegallery.adapters.ImageAdapter;
+import com.example.kaczor.imagegallery.core.interfaces.IOnRepositoryDataReturn;
 import com.example.kaczor.imagegallery.core.models.Image;
+import com.example.kaczor.imagegallery.core.models.ImagesList;
 import com.example.kaczor.imagegallery.listeners.BasicOnScrollListener;
 import com.example.kaczor.imagegallery.persistance.ImagesRepository;
 
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isLoading = false;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void init() {
         this.imageAdapter = new ImageAdapter(this, images);
         this.gridView.setAdapter(imageAdapter);
@@ -65,24 +65,30 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void  populateGridView() {
         if (!isLoading) {
             isLoading = true;
             this.progressBar.setVisibility(View.VISIBLE);
-            imagesRepository.getImages(currentPage, pageSize, (data) -> {
-                this.images.addAll(data.images);
-                this.imageAdapter.notifyDataSetChanged();
+            imagesRepository.getImages(currentPage, pageSize, new IOnRepositoryDataReturn<ImagesList>() {
+                @Override
+                public void onData(ImagesList data) {
+                    images.addAll(data.images);
+                    imageAdapter.notifyDataSetChanged();
 
-                this.debug.setText(String.format("Ilosc elementow w tablicy: %d", this.images.size()));
-                this.progressBar.setVisibility(View.INVISIBLE);
-                isLoading = false;
-                this.currentPage = (currentPage + 1);
+                    debug.setText(String.format("Ilosc elementow w tablicy: %d", images.size()));
+                    progressBar.setVisibility(View.INVISIBLE);
+                    isLoading = false;
+                    currentPage = (currentPage + 1);
 
-                if (this.currentPage * data.totalHits >= data.totalHits + this.pageSize) {
-                    this.currentPage = 1;
+                    if (currentPage * data.totalHits >= data.totalHits + pageSize) {
+                        currentPage = 1;
+                    }
                 }
 
+                @Override
+                public void onError(String error) {
+                    debug.setText(error);
+                }
             });
         }
     }
