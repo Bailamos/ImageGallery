@@ -34,7 +34,6 @@ public class ImagesRepository implements IImagesRepository {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void getImages(int page, int pageSize, IOnRepositoryDataReturn<ImagesList> onRepositoryDataReturn) {
         JsonObjectRequest pixabayImageListRequest = JsonObjectRequestFactory.Create(
