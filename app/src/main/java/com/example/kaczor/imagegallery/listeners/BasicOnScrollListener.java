@@ -1,5 +1,6 @@
 package com.example.kaczor.imagegallery.listeners;
 
+import android.util.Log;
 import android.widget.AbsListView;
 
 import com.example.kaczor.imagegallery.core.interfaces.IOnScroll;
@@ -14,12 +15,11 @@ public class BasicOnScrollListener implements AbsListView.OnScrollListener {
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (firstVisibleItem + visibleItemCount >= totalItemCount)
+        if (firstVisibleItem + visibleItemCount >= totalItemCount - visibleItemCount)
             onScroll.onReachedEnd();
     }
 }
