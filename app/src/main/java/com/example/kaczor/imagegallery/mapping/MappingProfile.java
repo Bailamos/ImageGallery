@@ -7,8 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,8 @@ public class MappingProfile {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 images.add(new Image(
-                        new URI(jsonArray.getJSONObject(i).getString("previewURL")),
-                        jsonArray.getJSONObject(i).getString("user")));
-            } catch (URISyntaxException e) {
+                        new URL(jsonArray.getJSONObject(i).getString("previewURL"))));
+            } catch (MalformedURLException e) {
                 continue;
             }
         }

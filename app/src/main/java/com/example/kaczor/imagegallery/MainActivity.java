@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     images.addAll(data.images);
                     imageAdapter.notifyDataSetChanged();
 
+                    clearIfNeeded();
                     onFinish();
                     checkIfAnyImagesLeft(data.totalHits);
-                    clearIfNeeded();
                 }
 
                 @Override

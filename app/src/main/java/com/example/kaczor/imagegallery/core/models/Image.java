@@ -1,22 +1,22 @@
 package com.example.kaczor.imagegallery.core.models;
 
-import java.net.URI;
+import java.net.URL;
 
 public class Image {
-    private URI link;
+    private URL link;
     private String author;
 
-    public Image (URI link) {
+    public Image (URL link) {
         this.link = link;
         this.author = "No author";
     }
 
-    public Image (URI link, String author) {
+    public Image (URL link, String author) {
         this.link = link;
         this.author = author;
     }
 
-    public URI getLink() {
+    public URL getLink() {
         return this.link;
     }
 
