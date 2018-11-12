@@ -55,7 +55,6 @@ public class ImageAdapter extends BaseAdapter {
             view.setTag(holder);
         }
 
-        holder.descriptionView.setText(String.format("Author: %s", images.get(position).getAuthor()));
         Picasso
                 .get()
                 .load(images.get(position).getLink().toString())
@@ -66,7 +65,6 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @BindView(R.id.DescriptionView) TextView descriptionView;
         @BindView(R.id.PreviewView) ImageView imageView;
 
         public ViewHolder(View view) {

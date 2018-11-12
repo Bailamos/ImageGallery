@@ -1,13 +1,11 @@
 package com.example.kaczor.imagegallery;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kaczor.imagegallery.adapters.ImageAdapter;
 import com.example.kaczor.imagegallery.core.interfaces.IOnRepositoryDataReturn;
@@ -30,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.ProgressBar)
     public ProgressBar progressBar;
 
-    @BindView(R.id.Debug)
-    public TextView debug;
-
     private ImagesRepository imagesRepository = new ImagesRepository(this);
 
     private List<Image> images = new ArrayList<>();;
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentPage = 1;
 
-    private int pageSize = 20;
+    private int pageSize = 40;
 
     private boolean isLoading = false;
 
@@ -75,19 +70,32 @@ public class MainActivity extends AppCompatActivity {
                     images.addAll(data.images);
                     imageAdapter.notifyDataSetChanged();
 
-                    debug.setText(String.format("Ilosc elementow w tablicy: %d", images.size()));
-                    progressBar.setVisibility(View.INVISIBLE);
-                    isLoading = false;
-                    currentPage = (currentPage + 1);
-
-                    if (currentPage * data.totalHits >= data.totalHits + pageSize) {
-                        currentPage = 1;
-                    }
+                    onFinish();
+                    checkIfAnyImagesLeft(data.totalHits);
+                    clearIfNeeded();
                 }
 
                 @Override
                 public void onError(String error) {
-                    debug.setText(error);
+                    Toast.makeText(getApplicationContext(),error, Toast.LENGTH_LONG).show();
+                }
+
+                private void checkIfAnyImagesLeft(int totalHits) {
+                    if (currentPage * totalHits >= totalHits + pageSize) {
+                        currentPage = 1;
+                    }
+                }
+
+                private void clearIfNeeded() {
+                    if (images.size() > pageSize * 20) {
+                        images = images.subList(0, 100);
+                    }
+                }
+
+                private void onFinish() {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    isLoading = false;
+                    currentPage = (currentPage + 1);
                 }
             });
         }
