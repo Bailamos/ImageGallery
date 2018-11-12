@@ -11,17 +11,13 @@ import com.example.kaczor.imagegallery.core.interfaces.IImagesRepository;
 import com.example.kaczor.imagegallery.core.interfaces.IOnRepositoryDataReturn;
 import com.example.kaczor.imagegallery.core.interfaces.IOnRequestFinished;
 import com.example.kaczor.imagegallery.core.models.Image;
+import com.example.kaczor.imagegallery.core.models.ImagesList;
 import com.example.kaczor.imagegallery.factories.JsonObjectRequestFactory;
 import com.example.kaczor.imagegallery.handlers.RequestHandler;
+import com.example.kaczor.imagegallery.mapping.MappingProfile;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ImagesRepository implements IImagesRepository {
 
@@ -40,26 +36,17 @@ public class ImagesRepository implements IImagesRepository {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void getImages(int page, int pageSize, IOnRepositoryDataReturn<List<Image>> onRepositoryDataReturn) {
+    public void getImages(int page, int pageSize, IOnRepositoryDataReturn<ImagesList> onRepositoryDataReturn) {
         JsonObjectRequest pixabayImageListRequest = JsonObjectRequestFactory.Create(
                 Request.Method.GET,
                 String.format("%s&page=%d&per_page=%d", API_MAIN, page, pageSize),
                 new IOnRequestFinished() {
                     @Override
-                    public void ActionOK(JSONObject jsonObject) {
+                    public void ActionOK(JSONObject json) {
                         try {
-                            List<Image> images = new ArrayList<>();
-                            JSONArray jsonArray = jsonObject.getJSONArray("hits");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                images.add(new Image(
-                                        new URI(jsonArray.getJSONObject(i).getString("previewURL")),
-                                        jsonArray.getJSONObject(i).getString("user")));
-                            }
-                            onRepositoryDataReturn.passData(images);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();
+                            onRepositoryDataReturn.passData(MappingProfile.mapJSONToImagesList(json));
+                        } catch(JSONException ex) {
+                            //todo:handle
                         }
                     }
                     @Override

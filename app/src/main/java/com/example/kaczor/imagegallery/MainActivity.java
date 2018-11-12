@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentPage = 1;
 
-    private int pageSize = 15;
+    private int pageSize = 20;
 
     private boolean isLoading = false;
 
@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         populateGridView();
         this.gridView.setOnScrollListener(new InfiniteOnScrollListener((int firstVisibleItem, int visibleItemCount, int totalItemCount) -> {
-            this.currentPage = (currentPage + 1) % 35;
-
             if (firstVisibleItem + visibleItemCount >= totalItemCount)
                 populateGridView();
         }));
@@ -73,13 +71,19 @@ public class MainActivity extends AppCompatActivity {
         if (!isLoading) {
             isLoading = true;
             this.progressBar.setVisibility(View.VISIBLE);
-            imagesRepository.getImages(currentPage, pageSize, (images) -> {
-                this.images.addAll(images);
+            imagesRepository.getImages(currentPage, pageSize, (data) -> {
+                this.images.addAll(data.images);
                 this.imageAdapter.notifyDataSetChanged();
 
                 this.debug.setText(String.format("Ilosc elementow w tablicy: %d", this.images.size()));
                 this.progressBar.setVisibility(View.INVISIBLE);
                 isLoading = false;
+                this.currentPage = (currentPage + 1);
+
+                if (this.currentPage * data.totalHits >= data.totalHits + this.pageSize) {
+                    this.currentPage = 1;
+                }
+
             });
         }
     }
