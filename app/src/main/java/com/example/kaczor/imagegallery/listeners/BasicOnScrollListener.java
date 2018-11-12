@@ -4,11 +4,11 @@ import android.widget.AbsListView;
 
 import com.example.kaczor.imagegallery.core.interfaces.IOnScroll;
 
-public class InfiniteOnScrollListener implements AbsListView.OnScrollListener {
+public class BasicOnScrollListener implements AbsListView.OnScrollListener {
 
     private IOnScroll onScroll;
 
-    public InfiniteOnScrollListener(IOnScroll action) {
+    public BasicOnScrollListener(IOnScroll action) {
         this.onScroll = action;
     }
 

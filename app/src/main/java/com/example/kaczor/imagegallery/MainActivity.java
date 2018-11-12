@@ -5,14 +5,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kaczor.imagegallery.adapters.ImageAdapter;
 import com.example.kaczor.imagegallery.core.models.Image;
-import com.example.kaczor.imagegallery.listeners.InfiniteOnScrollListener;
+import com.example.kaczor.imagegallery.listeners.BasicOnScrollListener;
 import com.example.kaczor.imagegallery.persistance.ImagesRepository;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         this.gridView.setAdapter(imageAdapter);
 
         populateGridView();
-        this.gridView.setOnScrollListener(new InfiniteOnScrollListener((int firstVisibleItem, int visibleItemCount, int totalItemCount) -> {
+        this.gridView.setOnScrollListener(new BasicOnScrollListener((int firstVisibleItem, int visibleItemCount, int totalItemCount) -> {
             if (firstVisibleItem + visibleItemCount >= totalItemCount)
                 populateGridView();
         }));
