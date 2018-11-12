@@ -54,9 +54,8 @@ public class MainActivity extends AppCompatActivity {
         this.gridView.setAdapter(imageAdapter);
 
         populateGridView();
-        this.gridView.setOnScrollListener(new BasicOnScrollListener((int firstVisibleItem, int visibleItemCount, int totalItemCount) -> {
-            if (firstVisibleItem + visibleItemCount >= totalItemCount)
-                populateGridView();
+        this.gridView.setOnScrollListener(new BasicOnScrollListener(() -> {
+            populateGridView();
         }));
     }
 
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 private void onFinish() {
                     progressBar.setVisibility(View.INVISIBLE);
                     isLoading = false;
-                    currentPage = (currentPage + 1);
+                    currentPage = currentPage + 1;
                 }
             });
         }

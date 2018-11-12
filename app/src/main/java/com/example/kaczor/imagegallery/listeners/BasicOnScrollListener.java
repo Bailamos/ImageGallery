@@ -19,6 +19,7 @@ public class BasicOnScrollListener implements AbsListView.OnScrollListener {
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        onScroll.action(firstVisibleItem, visibleItemCount, totalItemCount);
+        if (firstVisibleItem + visibleItemCount >= totalItemCount)
+            onScroll.onReachedEnd();
     }
 }
