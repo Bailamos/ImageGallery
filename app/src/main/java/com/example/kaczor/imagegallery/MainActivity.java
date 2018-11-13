@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.TryAgain)
     public void onTryAgain() {
-        tryAgain.setVisibility(View.GONE);
-        isLoading=false;
+        this.tryAgain.setVisibility(View.GONE);
+        this.isLoading=false;
         populateGridView();
     }
 
@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void  populateGridView() {
         if (!isLoading) {
-            isLoading = true;
+            this.isLoading = true;
             this.progressSpinner.setVisibility(View.VISIBLE);
-            imagesRepository.getImages(currentPage, PAGE_SIZE, new IOnRepositoryDataReturn<ImagesList>() {
+            this.imagesRepository.getImages(currentPage, PAGE_SIZE, new IOnRepositoryDataReturn<ImagesList>() {
                 @Override
                 public void onData(ImagesList data) {
                     images.addAll(data.images);
