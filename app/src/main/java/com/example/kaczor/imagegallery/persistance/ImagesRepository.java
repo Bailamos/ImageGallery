@@ -19,17 +19,12 @@ import org.json.JSONObject;
 
 public class ImagesRepository implements IImagesRepository {
 
-    private String API_MAIN = "https://pixabay.com/api/?key=5392552-b73411f3e24de10ac998d3ecd";
+    private static final String API_MAIN = "https://pixabay.com/api/?key=5392552-b73411f3e24de10ac998d3ecd";
 
     private Context context;
 
     public ImagesRepository(Context context) {
         this.context = context;
-    }
-
-    @Override
-    public Image getImage() {
-        return null;
     }
 
     @Override
