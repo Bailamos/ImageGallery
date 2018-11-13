@@ -58,6 +58,7 @@ public class ImageAdapter extends BaseAdapter {
                 .get()
                 .load(images.get(position).getLink().toString())
                 .placeholder(R.mipmap.ic_spinner_foreground)
+                .fit()
                 .into(holder.imageView);
 
         return view;
