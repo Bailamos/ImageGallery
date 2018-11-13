@@ -57,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    @OnClick(R.id.TryAgain)
+    public void onTryAgain() {
+        tryAgain.setVisibility(View.GONE);
+        isLoading=false;
+        populateGridView();
+    }
+
     private void init() {
         this.imageAdapter = new ImageAdapter(this, images);
         this.gridView.setAdapter(imageAdapter);
@@ -100,12 +107,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    @OnClick(R.id.TryAgain)
-    public void onTryAgain() {
-        tryAgain.setVisibility(View.GONE);
-        isLoading=false;
-        populateGridView();
     }
 }
