@@ -1,8 +1,13 @@
 package com.example.kaczor.imagegallery;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -19,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PAGE_SIZE = 100;
@@ -28,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.ProgressSpinner)
     public ProgressBar progressSpinner;
+
+    @BindView(R.id.TryAgain)
+    public Button tryAgain;
 
     private ImageAdapter imageAdapter;
 
@@ -75,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    tryAgain.setVisibility(View.VISIBLE);
                 }
 
                 private void checkIfThereAreMoreImages(int totalHits) {
@@ -90,5 +100,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @OnClick(R.id.TryAgain)
+    public void onTryAgain() {
+        tryAgain.setVisibility(View.GONE);
+        isLoading=false;
+        populateGridView();
     }
 }
